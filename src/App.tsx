@@ -1,12 +1,13 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react';
 
-import * as C from "./App.styles";
-import logoImage from "./assets/devmemory_logo.png";
-import { Button } from "./components/Button";
-import { InfoItem } from "./components/InfoItem";
-import { items } from "./data/item";
-import restartIcon from "./svgs/restart.svg";
-import { GridItemType } from "./types/GridItemType";
+import * as C from './App.styles';
+import logoImage from './assets/devmemory_logo.png';
+import { Button } from './components/Button';
+import { GridItem } from './components/GridItem';
+import { InfoItem } from './components/InfoItem';
+import { items } from './data/item';
+import restartIcon from './svgs/restart.svg';
+import { GridItemType } from './types/GridItemType';
 
 const App = () => {
   const [playing, setPlaying] = useState<boolean>(false);
@@ -32,20 +33,21 @@ const App = () => {
 
     // Preenchimento do Grid
     for (let w = 0; w < 2; w++) {
-      let pos = -1;
-      for (let i = 0; i < items.length; i++) {       
+      for (let i = 0; i < items.length; i++) {
+        let pos = -1;
         while (pos < 0 || tmpGrid[pos].item !== null) {
           pos = Math.floor(Math.random() * (items.length * 2));
         }
         tmpGrid[pos].item = i;
       }
-    }    
-
+    }
     setGridItems(tmpGrid);
 
     setPlaying(true);
   };
 
+  const handleItemClick = (index: number) => { };
+  
   return (
     <C.Container>
       <C.Info>
@@ -65,7 +67,15 @@ const App = () => {
       </C.Info>
 
       <C.GridArea>
-        <C.Grid></C.Grid>
+        <C.Grid>
+          {gridItems.map((item, index) => (
+            <GridItem
+              key={index}
+              item={item}
+              onClick={() => handleItemClick(index)}
+            ></GridItem>
+          ))}
+        </C.Grid>
       </C.GridArea>
     </C.Container>
   );
