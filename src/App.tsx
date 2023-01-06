@@ -27,6 +27,42 @@ const App = () => {
     return () => clearInterval(timer);
   }, [playing, timeElapsed]);
 
+  useEffect(() => {
+    if (moveCount > 0 && gridItems.every((item) => item.permanentShown)) {
+      setPlaying(false);
+    }
+  }, [moveCount, gridItems]);
+
+  useEffect(() => {
+    if (shownCount === 2) {
+      const opened = gridItems.filter((item) => item.shown);
+      if (opened.length === 2) {
+        if (opened[0].item === opened[1].item) {
+          const tmpGrid = [...gridItems];
+          for (let i in tmpGrid) {
+            if (tmpGrid[i].shown) {
+              tmpGrid[i].shown = false;
+              tmpGrid[i].permanentShown = true;
+            }
+          }
+          setGridItems(tmpGrid);
+          setShownCount(0);
+        } else {
+          const tmpGrid = [...gridItems];
+          setTimeout(() => {
+            for (let i in tmpGrid) {
+              tmpGrid[i].shown = false;
+            }
+            setGridItems(tmpGrid);
+            setShownCount(0);
+          }, 1000);
+        }
+
+        setMoveCount(moveCount + 1);
+      }
+    }
+  }, [shownCount, gridItems]);
+
   const resetAndCreateGrid = () => {
     setTimeElapsed(0);
     setMoveCount(0);
@@ -55,7 +91,16 @@ const App = () => {
     setPlaying(true);
   };
 
-  const handleItemClick = (index: number) => {};
+  const handleItemClick = (index: number) => {
+    if (playing && index !== null && shownCount < 2) {
+      let tmpGridItems = [...gridItems];
+      if (!tmpGridItems[index].permanentShown && !tmpGridItems[index].shown) {
+        tmpGridItems[index].shown = true;
+        setShownCount(shownCount + 1);
+      }
+      setGridItems(tmpGridItems);
+    }
+  };
 
   return (
     <C.Container>
@@ -64,9 +109,12 @@ const App = () => {
           <img src={logoImage} alt="" width="200" />
         </C.LogoLink>
 
-        <C.InfoArea>          
-          <InfoItem label="Tempo" value={formatTimeElapsed(timeElapsed)}></InfoItem>
-          <InfoItem label="Movimentos" value="0"></InfoItem>
+        <C.InfoArea>
+          <InfoItem
+            label="Tempo"
+            value={formatTimeElapsed(timeElapsed)}
+          ></InfoItem>
+          <InfoItem label="Movimentos" value={moveCount.toString()}></InfoItem>
         </C.InfoArea>
         <Button
           label="Reiniciar"
