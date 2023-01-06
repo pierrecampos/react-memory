@@ -1,13 +1,14 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
 
-import * as C from './App.styles';
-import logoImage from './assets/devmemory_logo.png';
-import { Button } from './components/Button';
-import { GridItem } from './components/GridItem';
-import { InfoItem } from './components/InfoItem';
-import { items } from './data/item';
-import restartIcon from './svgs/restart.svg';
-import { GridItemType } from './types/GridItemType';
+import * as C from "./App.styles";
+import logoImage from "./assets/devmemory_logo.png";
+import { Button } from "./components/Button";
+import { GridItem } from "./components/GridItem";
+import { InfoItem } from "./components/InfoItem";
+import { items } from "./data/item";
+import { formatTimeElapsed } from "./helpers/formatTimeElapsed";
+import restartIcon from "./svgs/restart.svg";
+import { GridItemType } from "./types/GridItemType";
 
 const App = () => {
   const [playing, setPlaying] = useState<boolean>(false);
@@ -17,6 +18,14 @@ const App = () => {
   const [gridItems, setGridItems] = useState<GridItemType[]>([]);
 
   useEffect(() => resetAndCreateGrid, []);
+
+  useEffect(() => {
+    let timer = setInterval(() => {
+      if (playing) setTimeElapsed(timeElapsed + 1);
+    }, 1000);
+
+    return () => clearInterval(timer);
+  }, [playing, timeElapsed]);
 
   const resetAndCreateGrid = () => {
     setTimeElapsed(0);
@@ -46,8 +55,8 @@ const App = () => {
     setPlaying(true);
   };
 
-  const handleItemClick = (index: number) => { };
-  
+  const handleItemClick = (index: number) => {};
+
   return (
     <C.Container>
       <C.Info>
@@ -55,8 +64,8 @@ const App = () => {
           <img src={logoImage} alt="" width="200" />
         </C.LogoLink>
 
-        <C.InfoArea>
-          <InfoItem label="Tempo" value="00:00"></InfoItem>
+        <C.InfoArea>          
+          <InfoItem label="Tempo" value={formatTimeElapsed(timeElapsed)}></InfoItem>
           <InfoItem label="Movimentos" value="0"></InfoItem>
         </C.InfoArea>
         <Button
