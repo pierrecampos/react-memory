@@ -1,6 +1,9 @@
 # React Memory :jigsaw:
 Jogo da memória desenvolvido no curso [B7Web](https://b7web.com.br/).
 
+## Visualizar projeto :dart:
+Acesse [React-Memory](https://pierrecampos.github.io/react-memory/)
+
 ## Tecnologias :gear:
 * React
 * TypeScript
