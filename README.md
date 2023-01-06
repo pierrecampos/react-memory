@@ -8,21 +8,21 @@ Jogo da memória desenvolvido no curso [B7Web](https://b7web.com.br/).
 
 ## Para rodar o projeto :rocket:
 
-#### `Clone o repositório`
+#### Clone o repositório
 ```
-$ git clone https://github.com/pierrecampos/react-memory.git
-```
-
-#### `Entre na pasta`
-```
-$ cd react-memory 
+git clone https://github.com/pierrecampos/react-memory.git
 ```
 
-#### `Instale as dependências`
+#### Entre na pasta
 ```
-$ npm install
+cd react-memory 
 ```
-#### `Rode o projeto!`
+
+#### Instale as dependências
 ```
-$ npm start
+npm install
+```
+#### Rode o projeto!
+```
+npm start
 ```
